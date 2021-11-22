@@ -8,14 +8,15 @@ Created on Mon Nov 22 13:52:02 2021
 ## Chloe Craig - CC
 ## Gaty Kazimi - GK
 import pygame
-# Reversegam general gameplay: placing an x or o changes your opponent's signs that lie between the new places x or o and any other to your sign. 
-#
+# Reversegam general gameplay: placing an x or o changes your opponent's tiles that lie between the new places x or o and any other to your tile. 
+# The game ends when the board is full or a player cannot make a move that flips any tiles. The winner is the player with more of their tiles CC
 import random
 import sys
-WIDTH = 8 # Board is 8 spaces wide.
-HEIGHT = 8 # Board is 8 spaces tall.
+#Board is 8 by 8 CC
+WIDTH = 8 
+HEIGHT = 8 
+## Print the initial board CC
 def drawBoard(board):
-    # Print the board passed to this function. Return None.
     print('  12345678')
     print(' +--------+')
     for y in range(HEIGHT):
@@ -27,48 +28,46 @@ def drawBoard(board):
     print('  12345678')
 
 def getNewBoard():
-   # Create a brand-new, blank board data structure.
-    board = []
+   # making new board thats full of spaces to fill CC
+    board = [] #defining board as empty collection
+    #adding a column of 8 spaces for each value in the range of width until it's wide enough
     for i in range(WIDTH):
         board.append([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '])
-    return board
+    return board 
 
+## Check if the move the player entered is one that's allowed CC
+## Returns false if invalid, returns the list of tiles to be flipped if valid CC
 def isValidMove(board, tile, xstart, ystart):
-    # Return False if the player's move on space xstart, ystart is invalid.
-    # If it is a valid move, return a list of spaces that would become
-           #the player's if they made a move here.
+    # xstart, ystart is the player's move, tile is what the player chose to be i.e. the tile not to flip
+    # if there is already an X or O in the spot OR if it is not on the board at all, return False CC
     if board[xstart][ystart] != ' ' or not isOnBoard(xstart, ystart):
         return False
-
+    ## Defines 'othertile' as the tile the player is playing as CC
     if tile == 'X':
         otherTile = 'O'
     else:
         otherTile = 'X'
-
+    ## returning which tiles to flip
     tilesToFlip = []
     for xdirection, ydirection in [[0, 1], [1, 1], [1, 0], [1, -1],
-           [0, -1], [-1, -1], [-1, 0], [-1, 1]]:
-        x, y = xstart, ystart
-        x += xdirection # First step in the x direction
-        y += ydirection # First step in the y direction
-        while isOnBoard(x, y) and board[x][y] == otherTile:
-            # Keep moving in this x & y direction.
-            x += xdirection
+           [0, -1], [-1, -1], [-1, 0], [-1, 1]]:                         ## iterate over all of the possible directions on the board, think NE100 2D direction vectors CC
+        x, y = xstart, ystart                                            ## defining varibles x and y as the x and y the player input CC
+        x += xdirection                                                  ## redefine x and y as the coordinates once you move a specific direction CC
+        y += ydirection                                                  ## ex. the player input x=5 and y=5 and we were on [1, -1], it would be redefined as x = 6 and y = 4 CC
+        while isOnBoard(x, y) and board[x][y] == otherTile:              ## while the xy coordinates are on the board the value at them is NOT the player's tile CC
+            x += xdirection                                              ## we're going to flip that tile but keep moving until we hit the player's tile CC
             y += ydirection
-            if isOnBoard(x, y) and board[x][y] == tile:
-                # There are pieces to flip over. Go in the reverse
-                      # direction until we reach the original space, noting all
-                       #the tiles along the way.
+            if isOnBoard(x, y) and board[x][y] == tile:                  ## this is when we hit the player's tile i.e. the end of where we're flipping tiles CC    
                 while True:
-                    x -= xdirection
-                    y -= ydirection
-                    if x == xstart and y == ystart:
+                    x -= xdirection                                      ## go back in the opposite direction by subtracting the direction vector values CC
+                    y -= ydirection                                      ## until you hit the space the player entered CC
+                    if x == xstart and y == ystart:    
                         break
-                    tilesToFlip.append([x, y])
+                    tilesToFlip.append([x, y])                          ## add the coordinates of each tile that needs to be flipped to the tilesToFlip collection CC
  
-    if len(tilesToFlip) == 0: # If no tiles were flipped, this is not a valid move.
+    if len(tilesToFlip) == 0:                                           ## means no tiles were flipped in any direction so this is not a valid move CC
         return False
-    return tilesToFlip
+    return tilesToFlip                                                  ## move was valid, return the list of coordinates of tiles that will be flipped CC
 
 def isOnBoard(x, y):
     # Return True if the coordinates are located on the board.

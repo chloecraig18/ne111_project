@@ -110,45 +110,43 @@ def enterPlayerTile():                                                  ## funct
     else:                                                               ## condition if tile chosen is not X
         return ['O', 'X']                                               ## return other tile (O) before X in a list   
 
-def whoGoesFirst():                                                     ## function that decides which player starts first in the game 
+def whoGoesFirst():                                                     ## function that decides which player starts first in the game EB
                                                                         ## system that either selects 1 or 0 as a method of randomly choosing who goes first
     if random.randint(0, 1) == 0:                                       ## using the sub module random to create condition if the random integer returned is equal to 0 
         return 'computer'                                               ## returns string indicating that the computer starts first 
     else:                                                               ## 
-        return 'player'                                                 ##
+        return 'player'                                                 ## returns string indicating that the player starts first 
 
-def makeMove(board, tile, xstart, ystart):
-    # Place the tile on the board at xstart, ystart and flip any of the opponent's pieces.
-    # Return False if this is an invalid move; True if it is valid.
-    tilesToFlip = isValidMove(board, tile, xstart, ystart)
+def makeMove(board, tile, xstart, ystart):                              ## function that allows player to move tile on board EB
+                                                                        ## Place the tile on the board at xstart, ystart and flip any of the opponent's pieces.
+                                                                        ## Return False if this is an invalid move; True if it is valid.
+    tilesToFlip = isValidMove(board, tile, xstart, ystart)              ## assigns list of coordinates where tiles are flipped to a previous function that ensures player's move is valid 
+                                                                        ##
+    if tilesToFlip == False:                                            ## if there are no tiles to flip (isValidMove returns False), function returns False
+        return False                                                    ## 
+                                                                        ##
+    board[xstart][ystart] = tile                                        ## temporarily setting player's tile on the board 
+    for x, y in tilesToFlip:                                            ## for loop 
+        board[x][y] = tile                                              ## places tile on board for "x" and "y" coordinates in list of flipped tiles   
+    return True                                                         ## True if "x" and "y" can be flipped                
 
-    if tilesToFlip == False:
-        return False
+def getBoardCopy(board):                                                ## Make a duplicate of the board list and return it EB
+    boardCopy = getNewBoard()                                           ## assign variable to make a new board to the function of obtaining a new board 
+                                                                        ##
+    for x in range(WIDTH):                                              ## for loop of "x" when in the sequence of integers found in the WIDTH 
+        for y in range(HEIGHT):                                         ## for loop of "y" when in the sequence of integers found in the HEIGHT, given "x" is in WIDTH
+            boardCopy[x][y] = board[x][y]                               ## given both conditions are upheld, creates a copy of board 
+                                                                        ##
+    return boardCopy                                                    ## returns the copy of the board 
 
-    board[xstart][ystart] = tile
-    for x, y in tilesToFlip:
-        board[x][y] = tile
-    return True
+def isOnCorner(x, y):                                                   ## function if tile is on a corner of the board EB
+                                                                        ## Return True if the position is in one of the four corners
+    return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
-def getBoardCopy(board):
-    # Make a duplicate of the board list and return it.
-    boardCopy = getNewBoard()
-
-    for x in range(WIDTH):
-        for y in range(HEIGHT):
-            boardCopy[x][y] = board[x][y]
-
-    return boardCopy
-
-def isOnCorner(x, y):
-    # Return True if the position is in one of the four corners.
-    return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)
-
-def getPlayerMove(board, playerTile):
-    # Let the player enter their move.
-    # Return the move as [x, y] (or return the strings 'hints' or
-           #'quit').
-    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()
+def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
+                                                                        ## Let the player enter their move.
+                                                                        ## Return the move as [x, y] (or return the strings 'hints' or 'quit')
+    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                             
     while True:
         print('Enter your move, "quit" to end the game, or "hints" to toggle hints.')
         move = input().lower()

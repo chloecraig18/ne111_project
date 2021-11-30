@@ -95,28 +95,27 @@ def getScoreOfBoard(board):                                             ## finds
                 oscore += 1                                             ## add one to the score of O
     return {'X':xscore, 'O':oscore}                                     ## returns a dictionary with X being the key for xscore and O for oscore
  
-def enterPlayerTile():
-    # Let the player enter which tile they want to be.
-    # Return a list with the player's tile as the first item and the
-           #computer's tile as the second.
-    tile = ''
-    while not (tile == 'X' or tile == 'O'):
-        print('Do you want to be X or O?')
-        tile = input().upper()
+def enterPlayerTile():                                                  ## function that prompts player to input desired name EB
+                                                                        ## Let the player enter which tile they want to be computer's tile as the second
+                                                                        ## 
+    tile = ''                                                           ## assign the variable "tile" to be a string  
+    while not (tile == 'X' or tile == 'O'):                             ## ensure that the condition that the player is not using the X or O tile is met
+        print('Do you want to be X or O?')                              ## prompt player to choose a tile to play with
+        tile = input().upper()                                          ## assigns an initial location to the tile to the upper side of the board 
 
-    # The first element in the list is the player's tile, and the second
-           #is the computer's tile.
-    if tile == 'X':
-        return ['X', 'O']
-    else:
-        return ['O', 'X']
+                                                                        ## The first element in the list is the player's tile, and the second is the computer's tile 
+                                                                        
+    if tile == 'X':                                                     ## condition if the tile chosen is X   EB
+        return ['X', 'O']                                               ## return chosen tile (X) first in a list              
+    else:                                                               ## condition if tile chosen is not X
+        return ['O', 'X']                                               ## return other tile (O) before X in a list   
 
-def whoGoesFirst():
-    # Randomly choose who goes first.
-    if random.randint(0, 1) == 0:
-        return 'computer'
-    else:
-        return 'player'
+def whoGoesFirst():                                                     ## function that decides which player starts first in the game 
+                                                                        ## system that either selects 1 or 0 as a method of randomly choosing who goes first
+    if random.randint(0, 1) == 0:                                       ## using the sub module random to create condition if the random integer returned is equal to 0 
+        return 'computer'                                               ## returns string indicating that the computer starts first 
+    else:                                                               ## 
+        return 'player'                                                 ##
 
 def makeMove(board, tile, xstart, ystart):
     # Place the tile on the board at xstart, ystart and flip any of the opponent's pieces.

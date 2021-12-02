@@ -148,9 +148,9 @@ def getPlayerMove(board, playerTile):                                   ## funct
                                                                         ## Return the move as [x, y] or returns the strings 'hints' or 'quit'
     DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                              ## 
     while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
-        print('Enter your move, "quit" to end the game, or "hints" to toggle hints.')
+        print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()                                          ## 
-        if move == 'quit' or move == 'hints':                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
+        if move == 'quit' or move == 'hints' or move == 'instructions:                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
             return move
 
         if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
@@ -226,6 +226,9 @@ def playGame(playerTile, computerTile):                                 ## Funct
                     sys.exit() # Terminate the program.
                 elif move == 'hints':                                   ## If the player turns on Hints mode
                     showHints = not showHints
+                    continue
+                elif move == "instructions":
+                    game_instructions()
                     continue
                 else:
                     makeMove(board, playerTile, move[0], move[1])       ## Player makes the move

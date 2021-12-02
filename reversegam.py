@@ -203,7 +203,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
     showHints = False
     turn = whoGoesFirst()                                               ## Use WhoGoesFirst() function
     print('The ' + turn + ' will go first.')                            
-
+    print('')
     # Clear the board and place starting pieces.
     board = getNewBoard()                                               ## Display the starting board using getNewBoard() function
     board[6][3] = 'X'
@@ -271,4 +271,5 @@ while True:
         
     print('Do you want to play again? (yes or no)')                     ## Loops if player chooses 'yes'
     if not input().lower().startswith('y'):
+        print ("Thank you for playing!")
         break

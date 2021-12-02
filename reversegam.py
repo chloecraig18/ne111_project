@@ -150,7 +150,7 @@ def getPlayerMove(board, playerTile):                                   ## funct
     while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()                                          ## 
-        if move == 'quit' or move == 'hints' or move == 'instructions:                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
+        if move == 'quit' or move == 'hints' or move == 'instructions':                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
             return move
 
         if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8

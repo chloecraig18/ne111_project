@@ -240,11 +240,20 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 move = getComputerMove(board, computerTile)
                 makeMove(board, computerTile, move[0], move[1])
             turn = 'player'                                             ## Change the turn to the player
-
+def game_instructions():
+        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no")
+        if inst == "Y" or inst == "y":
+            print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")
+            print("For each turn, the player places a new tile by inputting the coordinates of the space they would like to play on.")
+            print("For example if the player would like to play on the 4th column of the 1st row, the player would enter 41.")
+            print("Once a tile is played, all of the opposing player's tiles that lie between the new tile and any of the current player's other tiles are changed.")
+            print("For example, if an X is played, all O's that lie directly between the new X and any other X are changed to X's.")
+            print("The players take turns until either the board is full or a player cannot make a move that changes any other tiles.")
+            print("The player with the most tiles on the board wins. Good luck!")
 
 ## MAIN PROGRAM
 print('Welcome to Reversegam!')
-
+game_instructions()
 playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's 
                                                                         ## and computer's tiles
 while True:

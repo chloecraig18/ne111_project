@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Nov 30 15:56:18 2021
+
+@author: gatyk
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Nov 22 13:52:02 2021
 
 @author: Chloe
@@ -13,19 +20,19 @@ import pygame
 import random
 import sys
 #Board is 8 by 8 CC
-WIDTH = 8 
+WIDTH = 16 
 HEIGHT = 8 
 
 def drawBoard(board):                                                    ## print board of given width and height with coordinate values on all sides CC
-    print('  12345678')
-    print(' +--------+')
+    print('  1 2 3 4 5 6 7 8')
+    print(' +---------------+')
     for y in range(HEIGHT):
         print('%s|' % (y+1), end='')
         for x in range(WIDTH):
             print(board[x][y], end='')
         print('|%s' % (y+1))
-    print(' +--------+')
-    print('  12345678')
+    print(' +---------------+')
+    print('  1 2 3 4 5 6 7 8')
 
 def getNewBoard():                                                       ##prints new board with spaces in all spots CC
     board = []                                                           ##defining board as empty collection
@@ -42,8 +49,8 @@ def isValidMove(board, tile, xstart, ystart):                            ## Retu
     else:                                                                ##
         otherTile = 'X'                                                  ##
     tilesToFlip = []                                                     ##
-    for xdirection, ydirection in [[0, 1], [1, 1], [1, 0], [1, -1],      ## returning which tiles to flip
-           [0, -1], [-1, -1], [-1, 0], [-1, 1]]:                         ## iterate over all of the possible directions on the board, think NE100 2D direction vectors CC
+    for xdirection, ydirection in [[1, 1], [2, 1], [2, 0], [2, -1],      ## returning which tiles to flip
+           [1, -1], [-2, -1], [-2, 0], [-2, 1]]:                         ## iterate over all of the possible directions on the board, think NE100 2D direction vectors CC
         x, y = xstart, ystart                                            ## defining varibles x and y as the x and y the player input CC
         x += xdirection                                                  ## redefine x and y as the coordinates once you move a specific direction CC
         y += ydirection                                                  ## ex. the player input x=5 and y=5 and we were on [1, -1], it would be redefined as x = 6 and y = 4 CC
@@ -145,16 +152,16 @@ def isOnCorner(x, y):                                                   ## funct
 
 def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
                                                                         ## Let the player enter their move.
-                                                                        ## Return the move as [x, y] or returns the strings 'hints' or 'quit'
-    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                              ## 
-    while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
-        print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
-        move = input().lower()                                          ## 
-        if move == 'quit' or move == 'hints' or move == 'instructions':                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
+                                                                        ## Return the move as [x, y] (or return the strings 'hints' or 'quit')
+    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                             
+    while True:
+        print('Enter your move, "quit" to end the game, or "hints" to toggle hints.')
+        move = input().lower()
+        if move == 'quit' or move == 'hints':
             return move
 
-        if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
-            x = int(move[0]) - 1
+        if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:
+            x = (int(move[0])*2) - 2
             y = int(move[1]) - 1
             if isValidMove(board, playerTile, x, y) == False:
                 continue
@@ -199,10 +206,10 @@ def playGame(playerTile, computerTile):                                 ## Funct
 
     # Clear the board and place starting pieces.
     board = getNewBoard()                                               ## Display the starting board using getNewBoard() function
-    board[3][3] = 'X'
-    board[3][4] = 'O'
-    board[4][3] = 'O'
-    board[4][4] = 'X'
+    board[6][3] = 'X'
+    board[6][4] = 'O'
+    board[8][3] = 'O'
+    board[8][4] = 'X'
 
     while True:                                                         ## Main loop for running the turns between the player and the computer
         playerValidMoves = getValidMoves(board, playerTile)             ## Gets a list of valid moves both the player and the computer can make
@@ -227,9 +234,6 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 elif move == 'hints':                                   ## If the player turns on Hints mode
                     showHints = not showHints
                     continue
-                elif move == "instructions":
-                    game_instructions()
-                    continue
                 else:
                     makeMove(board, playerTile, move[0], move[1])       ## Player makes the move
             turn = 'computer'                                           ## Change the turn to the computer
@@ -243,20 +247,11 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 move = getComputerMove(board, computerTile)
                 makeMove(board, computerTile, move[0], move[1])
             turn = 'player'                                             ## Change the turn to the player
-def game_instructions():
-        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no")
-        if inst == "Y" or inst == "y":
-            print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")
-            print("For each turn, the player places a new tile by inputting the coordinates of the space they would like to play on.")
-            print("For example if the player would like to play on the 4th column of the 1st row, the player would enter 41.")
-            print("Once a tile is played, all of the opposing player's tiles that lie between the new tile and any of the current player's other tiles are changed.")
-            print("For example, if an X is played, all O's that lie directly between the new X and any other X are changed to X's.")
-            print("The players take turns until either the board is full or a player cannot make a move that changes any other tiles.")
-            print("The player with the most tiles on the board wins. Good luck!")
-##hi
+
+
 ## MAIN PROGRAM
 print('Welcome to Reversegam!')
-game_instructions()
+
 playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's 
                                                                         ## and computer's tiles
 while True:

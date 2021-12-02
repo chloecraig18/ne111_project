@@ -253,7 +253,7 @@ def game_instructions():
             print("For example, if an X is played, all O's that lie directly between the new X and any other X are changed to X's.")
             print("The players take turns until either the board is full or a player cannot make a move that changes any other tiles.")
             print("The player with the most tiles on the board wins. Good luck!")
-
+##hi
 ## MAIN PROGRAM
 print('Welcome to Reversegam!')
 game_instructions()

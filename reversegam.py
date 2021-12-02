@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 22 13:52:02 2021
-
-@author: Chloe
-"""
 ## Erika Bechtel-Becker - EB
 ## Chloe Craig - CC
 ## Gaty Kazimi - GK
@@ -13,19 +7,26 @@ import pygame
 import random
 import sys
 #Board is 8 by 8 CC
-WIDTH = 8 
-HEIGHT = 8 
+HEIGHT = int(input("How large would you like the board to be? Enter '6' for 6x6 or '8' for 88"))
+WIDTH = HEIGHT
 
-def drawBoard(board):                                                    ## print board of given width and height with coordinate values on all sides CC
-    print('  12345678')
-    print(' +--------+')
+def drawBoard(board): 
+    if HEIGHT == 6:                                                  ## print board of given width and height with coordinate values on all sides CC
+        print('  123456')
+    elif HEIGHT == 8:
+        print('  12345678')
+    print(' +' + (HEIGHT)*'-' + '+')
     for y in range(HEIGHT):
         print('%s|' % (y+1), end='')
         for x in range(WIDTH):
             print(board[x][y], end='')
         print('|%s' % (y+1))
-    print(' +--------+')
-    print('  12345678')
+    print(' +' + (HEIGHT)*'-' + '+')
+    if HEIGHT == 6:                                                  ## print board of given width and height with coordinate values on all sides CC
+        print('  123456')
+    elif HEIGHT == 8:
+        print('  12345678')
+   
 
 def getNewBoard():                                                       ##prints new board with spaces in all spots CC
     board = []                                                           ##defining board as empty collection
@@ -144,16 +145,18 @@ def isOnCorner(x, y):                                                   ## funct
     return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
 def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
-                                                                        ## Let the player enter their move.
+    if HEIGHT == 6: 
+        DIGITS = '1 2 3 4 5 6'.split()                                    ## Let the player enter their move.
                                                                         ## Return the move as [x, y] or returns the strings 'hints' or 'quit'
-    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                              ## 
-    while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
+    elif HEIGHT == 8:
+        DIGITS = '1 2 3 4 5 6 7 8'.split()                              ## 
+    while True:                                                         ## while the digits are valid, prompts the player to input how they want the game to proceed
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()                                          ## 
         if move == 'quit' or move == 'hints' or move == 'instructions':                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
             return move
 
-        if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
+        if len(move) == 2 and move[0] in DIGITS and move[1] in DIGITS:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
             x = int(move[0]) - 1
             y = int(move[1]) - 1
             if isValidMove(board, playerTile, x, y) == False:
@@ -199,10 +202,10 @@ def playGame(playerTile, computerTile):                                 ## Funct
 
     # Clear the board and place starting pieces.
     board = getNewBoard()                                               ## Display the starting board using getNewBoard() function
-    board[3][3] = 'X'
-    board[3][4] = 'O'
-    board[4][3] = 'O'
-    board[4][4] = 'X'
+    board[WIDTH//2 - 1][HEIGHT//2 - 1] = 'X'
+    board[WIDTH//2 - 1][HEIGHT//2] = 'O'
+    board[WIDTH//2][HEIGHT//2 - 1] = 'O'
+    board[WIDTH//2][HEIGHT//2] = 'X'
 
     while True:                                                         ## Main loop for running the turns between the player and the computer
         playerValidMoves = getValidMoves(board, playerTile)             ## Gets a list of valid moves both the player and the computer can make

@@ -244,7 +244,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 makeMove(board, computerTile, move[0], move[1])
             turn = 'player'                                             ## Change the turn to the player
 def game_instructions():
-        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no")
+        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no \n")
         if inst == "Y" or inst == "y":
             print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")
             print("For each turn, the player places a new tile by inputting the coordinates of the space they would like to play on.")
@@ -274,6 +274,6 @@ while True:
     else:
         print('The game was a tie!')                                    ## If the scores are the same
         
-    print('Do you want to play again? (yes or no)')                     ## Loops if player chooses 'yes'
+    print('Do you want to play again? (yes or no) \n')                  ## Loops if player chooses 'yes'
     if not input().lower().startswith('y'):
         break

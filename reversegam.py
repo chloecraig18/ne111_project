@@ -1,16 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 30 15:56:18 2021
-
-@author: gatyk
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 22 13:52:02 2021
-
-@author: Chloe
-"""
 ## Erika Bechtel-Becker - EB
 ## Chloe Craig - CC
 ## Gaty Kazimi - GK
@@ -77,8 +64,8 @@ def isValidMove(board, tile, xstart, ystart):                            ## Retu
     else:                                                                ##
         otherTile = 'X'                                                  ##
     tilesToFlip = []                                                     ##
-    for xdirection, ydirection in [[1, 1], [2, 1], [2, 0], [2, -1],      ## returning which tiles to flip
-           [1, -1], [-2, -1], [-2, 0], [-2, 1]]:                         ## iterate over all of the possible directions on the board, think NE100 2D direction vectors CC
+    for xdirection, ydirection in [[0, 1], [2, 1], [2, 0], [2, -1],      ## returning which tiles to flip
+           [0, -1], [-2, -1], [-2, 0], [-2, 1]]:                         ## iterate over all of the possible directions on the board, think NE100 2D direction vectors CC
         x, y = xstart, ystart                                            ## defining varibles x and y as the x and y the player input CC
         x += xdirection                                                  ## redefine x and y as the coordinates once you move a specific direction CC
         y += ydirection                                                  ## ex. the player input x=5 and y=5 and we were on [1, -1], it would be redefined as x = 6 and y = 4 CC
@@ -179,16 +166,17 @@ def isOnCorner(x, y):                                                   ## funct
     return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
 def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
-                                                                        ## Let the player enter their move.
-                                                                        ## Return the move as [x, y] (or return the strings 'hints' or 'quit')
-    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                             
-    while True:
-        print('Enter your move, "quit" to end the game, or "hints" to toggle hints.')
+     if h == 6:
+        DIGITS = '1 2 3 4 5 6'.split()                                                           ## Let the player enter their move.
+     elif h == 8:                                                                   ## Return the move as [x, y] (or return the strings 'hints' or 'quit')
+        DIGITS = '1 2 3 4 5 6 7 8'.split()                             
+     while True:
+        print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()
-        if move == 'quit' or move == 'hints':
+        if move == 'quit' or move == 'hints' or move == 'instructions':
             return move
 
-        if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:
+        if len(move) == 2 and move[0] in DIGITS and move[1] in DIGITS:
             x = (int(move[0])*2) - 2
             y = int(move[1]) - 1
             if isValidMove(board, playerTile, x, y) == False:
@@ -196,10 +184,10 @@ def getPlayerMove(board, playerTile):                                   ## funct
             else:
                 break
         else:
-            print('That is not a valid move. Enter the column (1-8) and then the row (1-8).')
-            print('For example, 81 will move on the top-right corner.')
+            print('That is not a valid move. Enter the column (1-' + str(h) + ') and then the row (1-' + str(h) + ').')
+            print('For example, ' + str(h) + '1 will move on the top-right corner.')
 
-    return [x, y]
+     return [x, y]
 
 def getComputerMove(board, computerTile):                               ## This function creates an algorithm for the computer's moves GK
     # Given a board and the computer's tile, determine where to
@@ -262,6 +250,9 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 elif move == 'hints':                                   ## If the player turns on Hints mode
                     showHints = not showHints
                     continue
+                elif move == 'instructions':
+                    game_instructions()
+                    continue 
                 else:
                     makeMove(board, playerTile, move[0], move[1])       ## Player makes the move
             else:

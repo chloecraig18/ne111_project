@@ -245,7 +245,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
 
         if playerValidMoves == [] and computerValidMoves == []:
             return board # No one can move, so end the game.
-
+        
         elif turn == 'player': # Player's turn                          
             if playerValidMoves != []:
                 if showHints:                                           ## Show hints to the player if Hints mode is on
@@ -264,6 +264,9 @@ def playGame(playerTile, computerTile):                                 ## Funct
                     continue
                 else:
                     makeMove(board, playerTile, move[0], move[1])       ## Player makes the move
+            else:
+                print("You cannot play any moves, so the turn goes to the computer")
+                print("")
             turn = 'computer'                                           ## Change the turn to the computer
 
         elif turn == 'computer': # Computer's turn
@@ -274,11 +277,26 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 input('Press Enter to see the computer\'s move.')       ## Output the computer's move
                 move = getComputerMove(board, computerTile)
                 makeMove(board, computerTile, move[0], move[1])
+            else:
+                print("The computer cannot play any moves, so the turn goes to you")
+                print("")
             turn = 'player'                                             ## Change the turn to the player
 
+def game_instructions():
+        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no \n")
+        if inst == "Y" or inst == "y":
+            print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")
+            print("For each turn, the player places a new tile by inputting the coordinates of the space they would like to play on.")
+            print("For example if the player would like to play on the 4th column of the 1st row, the player would enter 41.")
+            print("Once a tile is played, all of the opposing player's tiles that lie between the new tile and any of the current player's other tiles are changed.")
+            print("For example, if an X is played, all O's that lie directly between the new X and any other X are changed to X's.")
+            print("The players take turns until either the board is full or a player cannot make a move that changes any other tiles.")
+            print("The player with the most tiles on the board wins. Good luck!")
+            print("")
 
 ## MAIN PROGRAM
 print('Welcome to Reversegam!')
+game_instructions()
 
 playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's 
                                                                         ## and computer's tiles
@@ -290,6 +308,7 @@ while True:
     scores = getScoreOfBoard(finalBoard)                                ## Find the final score
     print('X scored %s points. O scored %s points.' % (scores['X'],
            scores['O']))
+    print("")
     if scores[playerTile] > scores[computerTile]:                       ## Determine the winner of the game by finding who has the bigger score
         print('You beat the computer by %s points! Congratulations!' % (scores[playerTile] - scores[computerTile]))
     elif scores[playerTile] < scores[computerTile]:

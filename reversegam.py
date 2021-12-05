@@ -166,48 +166,48 @@ def isOnCorner(x, y):                                                   ## funct
     return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
 def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
-     if h == 6:
-        DIGITS = '1 2 3 4 5 6'.split()                                                           ## Let the player enter their move.
-     elif h == 8:                                                                   ## Return the move as [x, y] (or return the strings 'hints' or 'quit')
-        DIGITS = '1 2 3 4 5 6 7 8'.split()                             
-     while True:
+     if h == 6:                                                         ##
+        DIGITS = '1 2 3 4 5 6'.split()                                  ## Assigns correct list to DIGITS depending on size of board input
+     elif h == 8:                                                       ## 
+        DIGITS = '1 2 3 4 5 6 7 8'.split()                              ##               
+     while True:                                                        ##
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
-        move = input().lower()
-        if move == 'quit' or move == 'hints' or move == 'instructions':
-            return move
-
-        if len(move) == 2 and move[0] in DIGITS and move[1] in DIGITS:
-            x = (int(move[0])*2) - 2
-            y = int(move[1]) - 1
-            if isValidMove(board, playerTile, x, y) == False:
-                continue
-            else:
-                break
-        else:
+        move = input().lower()                                          ## Let the player enter their move.
+        if move == 'quit' or move == 'hints' or move == 'instructions': ## Return the move as [x, y] (or return the strings 'hints', 'instruction' or 'quit')
+            return move                                                 ##
+                                                                        ##
+        if len(move) == 2 and move[0] in DIGITS and move[1] in DIGITS:  ## Check that the move that's entered is a valid form of input
+            x = (int(move[0])*2) - 2                                    ## Assign input to x and y coordinates coresponding to 
+            y = int(move[1]) - 1                                        ##
+            if isValidMove(board, playerTile, x, y) == False:           ##
+                continue                                                ##
+            else:                                                       ##
+                break                                                   ## Break while loop once move is confirmed valid, which stops game from asking for move again
+        else:                                                           ##
             print('That is not a valid move. Enter the column (1-' + str(h) + ') and then the row (1-' + str(h) + ').')
             print('For example, ' + str(h) + '1 will move on the top-right corner.')
-
-     return [x, y]
+                                                                        ## Print message if move entered in invalid
+     return [x, y]                                                      ##
 
 def getComputerMove(board, computerTile):                               ## This function creates an algorithm for the computer's moves GK
-    # Given a board and the computer's tile, determine where to
-    # move and return that move as an [x, y] list.
+                                                                        ## Given a board and the computer's tile, determine where to         
+                                                                        ## move and return that move as an [x, y] list.                      
     possibleMoves = getValidMoves(board, computerTile)                  ## Find all possible move the computer can make
-    random.shuffle(possibleMoves) # Randomize the order of the moves.
-    
-    # Always go for a corner if available.
-    for x, y in possibleMoves:                                          
-        if isOnCorner(x, y):
+    random.shuffle(possibleMoves)                                       ## Randomize the order of the moves.   
+                                                                        ##
+                                                                        ## Always go for a corner if available.
+    for x, y in possibleMoves:                                         
+        if isOnCorner(x, y):                                               
             return [x, y]
 
-    # Find the highest-scoring move possible.
-    bestScore = -1                                                      
-    for x, y in possibleMoves:
+                                                                        ## Find the highest-scoring move possible.
+    bestScore = -1                                                      ##             
+    for x, y in possibleMoves:                                          ##
         boardCopy = getBoardCopy(board)                                 ## Make a copy of the board and make moves there to determine
         makeMove(boardCopy, computerTile, x, y)                         ## which move will give the highest score
-        score = getScoreOfBoard(boardCopy)[computerTile]
-        if score > bestScore:
-            bestMove = [x, y]
+        score = getScoreOfBoard(boardCopy)[computerTile]                ##
+        if score > bestScore:                                           ##
+            bestMove = [x, y]                                           ##
             bestScore = score                                           ## Loop until all possible moves are played on the copy of the board
     return bestMove                                                     ## and the best move is found
                               
@@ -220,7 +220,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
     turn = whoGoesFirst()                                               ## Use WhoGoesFirst() function
     print('The ' + turn + ' will go first.')                            
     print('')
-    # Clear the board and place starting pieces.
+                                                                        ## Clear the board and place starting pieces.
     board = getNewBoard()                                               ## Display the starting board using getNewBoard() function
     board[HEIGHT-2][HEIGHT//2 - 1] = 'X'
     board[HEIGHT-2][HEIGHT//2] = 'O'
@@ -273,7 +273,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 print("")
             turn = 'player'                                             ## Change the turn to the player
 
-def game_instructions():
+def game_instructions():                                                ## Runs at beginning of game and can be called at any point in game as a turn
         inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no \n")
         if inst == "Y" or inst == "y":
             print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")

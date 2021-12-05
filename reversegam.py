@@ -19,6 +19,8 @@ import pygame
 # The game ends when the board is full or a player cannot make a move that flips any tiles. The winner is the player with more of their tiles CC
 import random
 import sys
+from datetime import datetime
+import time
 #Board is 8 by 8 CC
 WIDTH = 16 
 HEIGHT = 8 
@@ -230,8 +232,12 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 move = getPlayerMove(board, playerTile)
                 if move == 'quit':                                      ## If the player quits the game, then end the program
                     print('Thanks for playing!')
+                    time2 = datetime.now()
+                    duration = time2 - time1
+                    duration_in_s = duration.total_seconds()
+                    print("Playing Time =", duration_in_s, 's')         ## Shows the time (in seconds) elapsed since the game began EB
                     sys.exit() # Terminate the program.
-                elif move == 'hints':                                   ## If the player turns on Hints mode
+                elif move == 'hints':                                   ## If the player turns on Hints mode GK
                     showHints = not showHints
                     continue
                 else:
@@ -250,9 +256,12 @@ def playGame(playerTile, computerTile):                                 ## Funct
 
 
 ## MAIN PROGRAM
+time1 = datetime.now()                                                  ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+current_time = time1.strftime("%H:%M:%S")
+print("Current Time =", current_time)
 print('Welcome to Reversegam!')
 
-playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's 
+playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's GK
                                                                         ## and computer's tiles
 while True:
     finalBoard = playGame(playerTile, computerTile)                     ## Use the playGame function to get the final board
@@ -266,9 +275,17 @@ while True:
         print('You beat the computer by %s points! Congratulations!' % (scores[playerTile] - scores[computerTile]))
     elif scores[playerTile] < scores[computerTile]:
         print('You lost. The computer beat you by %s points.' % (scores[computerTile] - scores[playerTile]))
+        time2 = datetime.now()                                          ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+        duration = time2 - time1
+        duration_in_s = duration.total_seconds()
+        print("Playing Time =", duration_in_s, 's')
     else:
-        print('The game was a tie!')                                    ## If the scores are the same
+        print('The game was a tie!')                                    ## If the scores are the same GK
+        time2 = datetime.now()                                          ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+        duration = time2 - time1
+        duration_in_s = duration.total_seconds()
+        print("Playing Time =", duration_in_s, 's')
         
-    print('Do you want to play again? (yes or no)')                     ## Loops if player chooses 'yes'
+    print('Do you want to play again? (yes or no)')                     ## Loops if player chooses 'yes' GK
     if not input().lower().startswith('y'):
         break

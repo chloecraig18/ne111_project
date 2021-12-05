@@ -184,8 +184,8 @@ def getPlayerMove(board, playerTile):                                   ## funct
             else:                                                       ##
                 break                                                   ## Break while loop once move is confirmed valid, which stops game from asking for move again
         else:                                                           ##
-            print('That is not a valid move. Enter the column (1-' + str(h) + ') and then the row (1-' + str(h) + ').')
-            print('For example, ' + str(h) + '1 will move on the top-right corner.')
+            print('That is not a valid move. Enter the column (1-' + str(HEIGHT) + ') and then the row (1-' + str(h) + ').')
+            print('For example, ' + str(HEIGHT) + '1 will move on the top-right corner.')
                                                                         ## Print message if move entered in invalid
      return [x, y]                                                      ##
 

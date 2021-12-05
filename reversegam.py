@@ -143,25 +143,25 @@ def isOnCorner(x, y):                                                   ## funct
                                                                         ## Return True if the position is in one of the four corners
     return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
-def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
-                                                                        ## Let the player enter their move.
-                                                                        ## Return the move as [x, y] or returns the strings 'hints' or 'quit'
-    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                              ## 
+def getPlayerMove(board, playerTile):                                   ## Function allows player to input move and checks if the move is valid 
+                                                                        ## 
+                                                                        ## 
+    DIGITS1TO8 = '1 2 3 4 5 6 7 8'.split()                              ## allowed list of digits
     while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
-        move = input().lower()                                          ## 
-        if move == 'quit' or move == 'hints' or move == 'instructions':                           ## if the inputted move is "quit" or "hints", the function returns the variable "move"
-            return move
+        move = input().lower()                                          ## Reads input string of allowed digits from standard input or text and returns the lowercased strings (for the inputted text)
+        if move == 'quit' or move == 'hints' or move == 'instructions': ## Player can quit game, request hints or request instructions 
+            return move                                                 ## Returns the move that the player inputs (ie. quit, hints, instructions)
 
         if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
-            x = int(move[0]) - 1
-            y = int(move[1]) - 1
-            if isValidMove(board, playerTile, x, y) == False:
+            x = int(move[0]) - 1                                        ## converts strings in move[0] to integers, subtracts 1
+            y = int(move[1]) - 1                                        ## converts strings in move[1] to integers, subtracts 1
+            if isValidMove(board, playerTile, x, y) == False:           ## if function isValidMove is False, goes back to the start of the while loop to ask for another move
                 continue
             else:
-                break
+                break                                                   ## isValidMove is True, breaks out of the while loop
         else:
-            print('That is not a valid move. Enter the column (1-8) and then the row (1-8).')
+            print('That is not a valid move. Enter the column (1-8) and then the row (1-8).')  ## if the move is not valid, statement is printed
             print('For example, 81 will move on the top-right corner.')
 
     return [x, y]

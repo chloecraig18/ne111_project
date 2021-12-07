@@ -6,6 +6,8 @@ import pygame
 # The game ends when the board is full or a player cannot make a move that flips any tiles. The winner is the player with more of their tiles CC
 import random
 import sys
+from datetime import datetime
+import time
 #Board is 8 by 8 CC
 def sizeBoard(h,w):
     print("How large would you like the board to be?")
@@ -165,21 +167,21 @@ def isOnCorner(x, y):                                                   ## funct
                                                                         ## Return True if the position is in one of the four corners
     return (x == 0 or x == WIDTH - 1) and (y == 0 or y == HEIGHT - 1)   ## 
 
-def getPlayerMove(board, playerTile):                                   ## function to prompt player to move
+def getPlayerMove(board, playerTile):                                   ## Function allows player to input move and checks if the move is valid
      if h == 6:                                                         ##
         DIGITS = '1 2 3 4 5 6'.split()                                  ## Assigns correct list to DIGITS depending on size of board input
      elif h == 8:                                                       ## 
-        DIGITS = '1 2 3 4 5 6 7 8'.split()                              ##               
-     while True:                                                        ##
+        DIGITS = '1 2 3 4 5 6 7 8'.split()                              ## allowed list of digits               
+     while True:                                                        ##  while the digits are valid, promts the player to input how they want the game to proceed
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()                                          ## Let the player enter their move.
-        if move == 'quit' or move == 'hints' or move == 'instructions': ## Return the move as [x, y] (or return the strings 'hints', 'instruction' or 'quit')
-            return move                                                 ##
+        if move == 'quit' or move == 'hints' or move == 'instructions': ## Player can quit game, request hints or request instructions
+            return move                                                 ## Returns the move that the player inputs (ie. quit, hints, instructions)
                                                                         ##
         if len(move) == 2 and move[0] in DIGITS and move[1] in DIGITS:  ## Check that the move that's entered is a valid form of input
-            x = (int(move[0])*2) - 2                                    ## Assign input to x and y coordinates coresponding to 
-            y = int(move[1]) - 1                                        ##
-            if isValidMove(board, playerTile, x, y) == False:           ##
+            x = (int(move[0])*2) - 2                                    ## converts strings in move[0] to integers, accomadates new board size 
+            y = int(move[1]) - 1                                        ## converts strings in move[1] to integers, accomadates new board size 
+            if isValidMove(board, playerTile, x, y) == False:           ## if function isValidMove is False, goes back to the start of the while loop to ask for another move
                 continue                                                ##
             else:                                                       ##
                 break                                                   ## Break while loop once move is confirmed valid, which stops game from asking for move again
@@ -242,10 +244,13 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 else:
                     drawBoard(board)
                 printScore(board, playerTile, computerTile)
-
                 move = getPlayerMove(board, playerTile)
                 if move == 'quit':                                      ## If the player quits the game, then end the program
                     print('Thanks for playing!')
+                    time2 = datetime.now()
+                    duration = time2 - time1
+                    duration_in_s = duration.total_seconds()
+                    print("Playing Time =", duration_in_s, 's')         ## Shows the time (in seconds) elapsed since the game began EB
                     sys.exit() # Terminate the program.
                 elif move == 'hints':                                   ## If the player turns on Hints mode
                     showHints = not showHints
@@ -286,6 +291,9 @@ def game_instructions():                                                ## Runs 
             print("")
 
 ## MAIN PROGRAM
+time1 = datetime.now()                                                  ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+current_time = time1.strftime("%H:%M:%S")
+print("Current Time =", current_time)
 print('Welcome to Reversegam!')
 game_instructions()
 
@@ -302,10 +310,22 @@ while True:
     print("")
     if scores[playerTile] > scores[computerTile]:                       ## Determine the winner of the game by finding who has the bigger score
         print('You beat the computer by %s points! Congratulations!' % (scores[playerTile] - scores[computerTile]))
+        time2 = datetime.now()                                          ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+        duration = time2 - time1
+        duration_in_s = duration.total_seconds()
+        print("Playing Time =", duration_in_s, 's')
     elif scores[playerTile] < scores[computerTile]:
         print('You lost. The computer beat you by %s points.' % (scores[computerTile] - scores[playerTile]))
+        time2 = datetime.now()                                          ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+        duration = time2 - time1
+        duration_in_s = duration.total_seconds()
+        print("Playing Time =", duration_in_s, 's')
     else:
         print('The game was a tie!')                                    ## If the scores are the same
+        time2 = datetime.now()                                          ## Shows the current time as the player begins the game (24 hour clock displaying hours:minutes:seconds) EB
+        duration = time2 - time1
+        duration_in_s = duration.total_seconds()
+        print("Playing Time =", duration_in_s, 's')
         
     print('Do you want to play again? (yes or no)')                     ## Loops if player chooses 'yes'
     if not input().lower().startswith('y'):

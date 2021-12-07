@@ -4,9 +4,9 @@ Created on Mon Nov 22 13:52:02 2021
 
 @author: Chloe
 """
-## Erika Bechtel-Becker - EB
-## Chloe Craig - CC
-## Gaty Kazimi - GK
+## Erika Bechtel-Becker - EB 20952156
+## Chloe Craig - CC 20888832
+## Gaty Kazimi - GK 20956021
 import pygame
 # Reversegam general gameplay: placing an x or o changes your opponent's tiles that lie between the new places x or o and any other to your tile. 
 # The game ends when the board is full or a player cannot make a move that flips any tiles. The winner is the player with more of their tiles CC

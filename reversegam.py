@@ -278,7 +278,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 print("")
             turn = 'player'                                             ## Change the turn to the player
 
-def game_instructions():                                                ## Runs at beginning of game and can be called at any point in game as a turn
+def game_instructions():                                                ## Runs at beginning of game and can be called at any point in game as a turn CC
         inst = input("Would you like to see the game instructions? Type Y/N for yes/no \n")
         if inst == "Y" or inst == "y" or inst == "Yes" or inst == "yes":
             print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")

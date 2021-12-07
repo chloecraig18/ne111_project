@@ -150,7 +150,7 @@ def getPlayerMove(board, playerTile):                                   ## Funct
     while True:                                                         ## while the digits are valid, promts the player to input how they want the game to proceed
         print('Enter your move, "quit" to end the game, "instructions" to see game instructions, or "hints" to toggle hints.')
         move = input().lower()                                          ## Reads input string of allowed digits from standard input or text and returns the lowercased strings (for the inputted text)
-        if move == 'quit' or move == 'hints' or move == 'instructions': ## Player can quit game, request hints or request instructions 
+        if move == 'quit' or move == 'hints': ## Player can quit game, request hints or request instructions 
             return move                                                 ## Returns the move that the player inputs (ie. quit, hints, instructions)
 
         if len(move) == 2 and move[0] in DIGITS1TO8 and move[1] in DIGITS1TO8:  ## if the move is of a 2 digit length, and the initial digit is within digits 1-8
@@ -227,9 +227,7 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 elif move == 'hints':                                   ## If the player turns on Hints mode
                     showHints = not showHints
                     continue
-                elif move == "instructions":
-                    game_instructions()
-                    continue
+             
                 else:
                     makeMove(board, playerTile, move[0], move[1])       ## Player makes the move
             turn = 'computer'                                           ## Change the turn to the computer
@@ -243,20 +241,11 @@ def playGame(playerTile, computerTile):                                 ## Funct
                 move = getComputerMove(board, computerTile)
                 makeMove(board, computerTile, move[0], move[1])
             turn = 'player'                                             ## Change the turn to the player
-def game_instructions():
-        inst = input("Would you like to see the game instrcutions? Type Y/N for yes/no \n")
-        if inst == "Y" or inst == "y":
-            print("Reversegam has a square board and two types of tiles, X and O. Each player starts with two tiles in the centre of the board.")
-            print("For each turn, the player places a new tile by inputting the coordinates of the space they would like to play on.")
-            print("For example if the player would like to play on the 4th column of the 1st row, the player would enter 41.")
-            print("Once a tile is played, all of the opposing player's tiles that lie between the new tile and any of the current player's other tiles are changed.")
-            print("For example, if an X is played, all O's that lie directly between the new X and any other X are changed to X's.")
-            print("The players take turns until either the board is full or a player cannot make a move that changes any other tiles.")
-            print("The player with the most tiles on the board wins. Good luck!")
+
 
 ## MAIN PROGRAM
 print('Welcome to Reversegam!')
-game_instructions()
+
 playerTile, computerTile = enterPlayerTile()                            ## Use the enterPlayerTile() function to determine both the player's 
                                                                         ## and computer's tiles
 while True:
